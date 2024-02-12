@@ -19,7 +19,7 @@ build:
 	docker build \
 		--build-arg ORIGINAL_IMAGE_NAME=${ORIGINAL_IMAGE_NAME} \
 		-t ${IMAGE_NAME} \
-		-f Dockerfile .
+		-f ${MAKEFILE_DIR}Dockerfile ${MAKEFILE_DIR}
 
 version:
 	${AWS} --version
@@ -35,14 +35,3 @@ sh:
 alias:
 	@echo "以下をコピーして実行してください。"
 	alias aws='${AWS}'
-
-create:
-	${AWS} cloudformation create-stack \
-		--stack-name MyTestStack \
-		--template-body file://src/cf_s3/template.yaml
-
-check:
-	${AWS} s3 ls | grep dzn-unique-bucket-name-12345
-
-delete:
-	${AWS} cloudformation delete-stack --stack-name MyTestStack
